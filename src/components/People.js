@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import DataTable from './DataTable';
+import { Button, makeStyles } from '@material-ui/core';
 
 const fetchPeople = async (page) => {
   try {
@@ -11,6 +12,14 @@ const fetchPeople = async (page) => {
   }
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+
 const People = () => {
   const [page, setPage] = useState(1);
   const [people, setPeople] = useState([]);
@@ -20,6 +29,8 @@ const People = () => {
     previous: false,
     results: [],
   });
+
+  const classes = useStyles();
 
   useEffect(() => {
     fetchPeople(page).then((response) => {
@@ -33,13 +44,27 @@ const People = () => {
   const hasPrevious = !!state.previous;
   return (
     <>
-      <ol>
-        {people.map((person) => {
-          return <li key={uuidv4()}>{person.name}</li>;
-        })}
-      </ol>
-      {hasNext && <button onClick={() => setPage(page + 1)}>Next</button>}
-      {hasPrevious && <button onClick={() => setPage(page - 1)}>Back</button>}
+      <DataTable people={people} />
+      <div align="right">
+        {hasPrevious && (
+          <Button
+            className={classes.root}
+            onClick={() => setPage(page - 1)}
+            color="primary"
+          >
+            Back
+          </Button>
+        )}
+        {hasNext && (
+          <Button
+            className={classes.root}
+            onClick={() => setPage(page + 1)}
+            color="primary"
+          >
+            Next
+          </Button>
+        )}
+      </div>
     </>
   );
 };
