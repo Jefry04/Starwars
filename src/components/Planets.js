@@ -3,9 +3,9 @@ import DataTable from './DataTable';
 import { Button, makeStyles } from '@material-ui/core';
 import Search from './Search';
 
-const fetchPeople = async (page) => {
+const fetchPlanets = async (page) => {
   try {
-    const response = await fetch(`https://swapi.dev/api/people/?page=${page}`);
+    const response = await fetch(`https://swapi.dev/api/planets/?page=${page}`);
     const res = await response.json();
     return res;
   } catch (e) {
@@ -21,22 +21,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const People = () => {
+const Planets = () => {
   const [page, setPage] = useState(1);
-  const [people, setPeople] = useState([]);
+  const [planets, setPlanets] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(people);
+  let rows = createArray(planets);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchPeople(page).then((response) => {
+    fetchPlanets(page).then((response) => {
       const characters = response.results;
-      setPeople(characters);
+      setPlanets(characters);
       setState(response);
     });
   }, [page]);
@@ -73,14 +73,14 @@ const People = () => {
   );
 };
 
-function createArray(people) {
-  return people.map((person, index) => {
+function createArray(planets) {
+  return planets.map((planet, index) => {
     return {
       id: index,
-      nombre: person.name,
-      edad: person.birth_year,
-      genero: person.gender,
+      nombre: planet.name,
+      clima: planet.climate,
+      poblacion: planet.population,
     };
   });
 }
-export default People;
+export default Planets;

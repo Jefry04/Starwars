@@ -3,9 +3,11 @@ import DataTable from './DataTable';
 import { Button, makeStyles } from '@material-ui/core';
 import Search from './Search';
 
-const fetchPeople = async (page) => {
+const fetchVehicles = async (page) => {
   try {
-    const response = await fetch(`https://swapi.dev/api/people/?page=${page}`);
+    const response = await fetch(
+      `https://swapi.dev/api/vehicles/?page=${page}`
+    );
     const res = await response.json();
     return res;
   } catch (e) {
@@ -21,22 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const People = () => {
+const Vehicles = () => {
   const [page, setPage] = useState(1);
-  const [people, setPeople] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(people);
+  let rows = createArray(vehicles);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchPeople(page).then((response) => {
-      const characters = response.results;
-      setPeople(characters);
+    fetchVehicles(page).then((response) => {
+      const vehicle = response.results;
+      setVehicles(vehicle);
       setState(response);
     });
   }, [page]);
@@ -73,14 +75,14 @@ const People = () => {
   );
 };
 
-function createArray(people) {
-  return people.map((person, index) => {
+function createArray(vehicles) {
+  return vehicles.map((vehicle, index) => {
     return {
       id: index,
-      nombre: person.name,
-      edad: person.birth_year,
-      genero: person.gender,
+      nombre: vehicle.name,
+      Modelo: vehicle.model,
+      Capacidad: vehicle.passengers,
     };
   });
 }
-export default People;
+export default Vehicles;

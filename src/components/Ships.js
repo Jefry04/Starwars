@@ -3,9 +3,11 @@ import DataTable from './DataTable';
 import { Button, makeStyles } from '@material-ui/core';
 import Search from './Search';
 
-const fetchPeople = async (page) => {
+const fetchShips = async (page) => {
   try {
-    const response = await fetch(`https://swapi.dev/api/people/?page=${page}`);
+    const response = await fetch(
+      `https://swapi.dev/api/starships/?page=${page}`
+    );
     const res = await response.json();
     return res;
   } catch (e) {
@@ -21,22 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const People = () => {
+const Ships = () => {
   const [page, setPage] = useState(1);
-  const [people, setPeople] = useState([]);
+  const [ships, setShips] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(people);
+  let rows = createArray(ships);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchPeople(page).then((response) => {
-      const characters = response.results;
-      setPeople(characters);
+    fetchShips(page).then((response) => {
+      const ship = response.results;
+      setShips(ship);
       setState(response);
     });
   }, [page]);
@@ -73,14 +75,14 @@ const People = () => {
   );
 };
 
-function createArray(people) {
-  return people.map((person, index) => {
+function createArray(ships) {
+  return ships.map((ship, index) => {
     return {
       id: index,
-      nombre: person.name,
-      edad: person.birth_year,
-      genero: person.gender,
+      Nombre: ship.name,
+      Modelo: ship.model,
+      Capacidad: ship.passengers,
     };
   });
 }
-export default People;
+export default Ships;

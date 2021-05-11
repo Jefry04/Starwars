@@ -1,5 +1,4 @@
 import { React } from 'react';
-
 import {
   makeStyles,
   Table,
@@ -15,7 +14,7 @@ import SingleModal from './SingleModal';
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    minWidth: 650,
+    minWidth: 400,
   },
 
   root: {
@@ -25,107 +24,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DataTable({ people }) {
+export default function DataTable({ data = [] }) {
   const classes = useStyles();
+  const columns = data[0] && Object.keys(data[0]);
 
   return (
     <>
       <Grid container>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
-            <Table
-              className={classes.table}
-              size="small"
-              aria-label="a dense table"
-            >
+            <Table className={classes.table} size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">ID</TableCell>
-                  <TableCell align="right">NAME</TableCell>
-                  <TableCell align="right">AGE</TableCell>
-                  <TableCell align="right">GENDER</TableCell>
-                  <TableCell align="right">MORE</TableCell>
+                  {data[0] &&
+                    columns.map((tableHead, index) => (
+                      <TableCell align="right" key={index}>
+                        {tableHead}
+                      </TableCell>
+                    ))}
+                  <TableCell align="right">MAS INFO</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {people.map((person, index) => (
+                {data.map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell align="right">{index + 1}</TableCell>
-                    <TableCell align="right">{person.name}</TableCell>
-                    <TableCell align="right">{person.birth_year}</TableCell>
-                    <TableCell align="right">{person.gender}</TableCell>
+                    {columns.map((column, index) => (
+                      <>
+                        <TableCell align="right" key={index}>
+                          {row[column]}
+                        </TableCell>
+                      </>
+                    ))}
                     <TableCell align="right">
-                      <SingleModal name={person.name} />
+                      <SingleModal data={row} />
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          s
         </Grid>
       </Grid>
     </>
   );
 }
-
-/* import * as React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'age', headerName: 'Birth year', width: 130 },
-  { field: 'gender', headerName: 'gender', width: 90 },
-];
-
-export default function DataTable({ people }) {
-  let rows = createArray(people);
-
-  const characters = rows.map((row) => {
-    const { id, name, age, gender } = row;
-    return (
-      <tr key={id}>
-        <td>{id}</td>
-        <td>{name}</td>
-        <td>{age}</td>
-        <td>{gender}</td>
-      </tr>
-    );
-  });
-
-  return (
-    <>
-      <table>
-        <tbody>
-          <tr>
-            <th>ID</th>
-            <th>NAME</th>
-            <th>AGE</th>
-            <th>GENDER</th>
-          </tr>
-          {characters}
-        </tbody>
-      </table>
-    </>
-    ///OTRA FORMA DE HACERLO   <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        onPageChange={() => console.log('hola')}
-      />
-    // HASTA ACA</div>
-  );
-}
-
-function createArray(people) {
-  return people.map((person, index) => {
-    return {
-      id: index,
-      name: person.name,
-      age: person.birth_year,
-      gender: person.gender,
-    };
-  });
-}
- */

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleModal({ name }) {
+export default function SingleModal({ data = [] }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -27,8 +27,8 @@ export default function SingleModal({ name }) {
   };
   const body = (
     <div className={classes.modal}>
-      <h2>{name}</h2>
-      <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+      <h2>{data.nombre}</h2>
+      <p>Inforamcion adicional</p>
       <div align="right">
         <button type="button" onClick={handleClose}>
           CERRAR
