@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchResult({ location }) {
   let data = [];
   data = location.state.data;
-  console.log(location);
-  console.log(data);
 
   const classes = useStyles();
   const columns = data[0] && Object.keys(data[0]);
@@ -81,7 +79,7 @@ export default function SearchResult({ location }) {
                         {tableHead}
                       </TableCell>
                     ))}
-                  <TableCell align="right" key={uuidv4()}>
+                  <TableCell align="center" key={uuidv4()}>
                     MAS INFO
                   </TableCell>
                 </TableRow>
@@ -90,15 +88,15 @@ export default function SearchResult({ location }) {
                 {data.map((row, index) => (
                   <TableRow key={index}>
                     {columns.map((column, index) => (
-                      <>
-                        <TableCell align="right" key={index + 1}>
-                          {row[column]}
-                        </TableCell>
-                      </>
+                      <TableCell align="right" key={index + 1}>
+                        {row[column]}
+                      </TableCell>
                     ))}
-                    <button type="button" onClick={() => handleOpen(row)}>
-                      mas info
-                    </button>
+                    <TableCell align="center">
+                      <button type="button" onClick={() => handleOpen(row)}>
+                        mas info
+                      </button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

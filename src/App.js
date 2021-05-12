@@ -11,16 +11,15 @@ function App() {
   return (
     <>
       <Router>
-        <div>
-          <NavBar />
-          <Switch>
-            <Route path="/People" component={People} />
-            <Route path="/Planets" component={Planets} />
-            <Route path="/ships" component={Ships} />
-            <Route path="/vehicles" component={Vehicles} />
-            <Route exact path="/result" component={SearchResult} />
-          </Switch>
-        </div>
+        <NavBar />
+        <Switch>
+          <Route path="/people" component={People} />
+          <Route exact path="/" component={People} />
+          <Route path="/planets" component={Planets} />
+          <Route path="/ships" component={Ships} />
+          <Route path="/vehicles" component={Vehicles} />
+          <Route exact path="/result" component={SearchResult} />
+        </Switch>
       </Router>
     </>
   );

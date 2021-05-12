@@ -76,7 +76,7 @@ export default function DataTable({ data = [] }) {
                         {tableHead}
                       </TableCell>
                     ))}
-                  <TableCell align="right" key={uuidv4()}>
+                  <TableCell align="center" key={uuidv4()}>
                     MAS INFO
                   </TableCell>
                 </TableRow>
@@ -85,15 +85,15 @@ export default function DataTable({ data = [] }) {
                 {data.map((row, index) => (
                   <TableRow key={index}>
                     {columns.map((column, index) => (
-                      <>
-                        <TableCell align="right" key={index + 1}>
-                          {row[column]}
-                        </TableCell>
-                      </>
+                      <TableCell align="right" key={index + 1}>
+                        {row[column]}
+                      </TableCell>
                     ))}
-                    <button type="button" onClick={() => handleOpen(row)}>
-                      mas info
-                    </button>
+                    <TableCell align="center">
+                      <button type="button" onClick={() => handleOpen(row)}>
+                        mas info
+                      </button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
