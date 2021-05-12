@@ -12,6 +12,6 @@ Clone the project, install node_modules (using npm install) and run the app with
 
 ## Built With
 
-React (React Hooks)
-Material UI
-Firebase to deploy
+- React (React Hooks)
+- Material UI
+- Firebase to deploy

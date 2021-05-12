@@ -13,6 +13,21 @@ import {
 } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 400,
@@ -23,16 +38,13 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-  modal: {
+  body: {
     position: 'absolute',
     width: 400,
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: '16px 32px 24px',
-    top: '50%',
-    left: '50%',
-    transform: 'translate (-50%, -50%)',
+    padding: theme.spacing(2, 4, 3),
   },
 }));
 
@@ -41,9 +53,9 @@ export default function DataTable({ data = [] }) {
   const columns = data[0] && Object.keys(data[0]);
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState([]);
+  const [modalStyle] = useState(getModalStyle);
 
   const handleOpen = (e) => {
-    console.log(e);
     setInfo(e);
     setOpen(true);
   };
@@ -51,7 +63,7 @@ export default function DataTable({ data = [] }) {
     setOpen(false);
   };
   const body = (
-    <div className={classes.modal}>
+    <div style={modalStyle} className={classes.body}>
       <h2>{info.nombre}</h2>
       <p>Inforamcion adicional</p>
       <div align="right">
