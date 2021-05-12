@@ -36,7 +36,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DataTable({ data = [] }) {
+export default function SearchResult({ location }) {
+  let data = [];
+  data = location.state.data;
+  console.log(location);
+  console.log(data);
+
   const classes = useStyles();
   const columns = data[0] && Object.keys(data[0]);
   const [open, setOpen] = useState(false);

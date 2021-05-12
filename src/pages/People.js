@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DataTable from './DataTable';
+import DataTable from '../components/DataTable';
 import { Button, makeStyles } from '@material-ui/core';
-import Search from './Search';
-
-const fetchShips = async (page) => {
-  try {
-    const response = await fetch(
-      `https://swapi.dev/api/starships/?page=${page}`
-    );
-    const res = await response.json();
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
+import Search from '../components/Search';
+import fetchPeople from '../utils/getData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,22 +12,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Ships = () => {
+const People = () => {
   const [page, setPage] = useState(1);
-  const [ships, setShips] = useState([]);
+  const [people, setPeople] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(ships);
+  let rows = createArray(people);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchShips(page).then((response) => {
-      const ship = response.results;
-      setShips(ship);
+    fetchPeople('people', page).then((response) => {
+      const characters = response.results;
+      setPeople(characters);
       setState(response);
     });
   }, [page]);
@@ -68,21 +57,22 @@ const Ships = () => {
           </Button>
         )}
         <div align="left">
-          <Search />
+          <Search path={'people'} />
         </div>
       </div>
     </>
   );
 };
 
-function createArray(ships) {
-  return ships.map((ship, index) => {
+function createArray(people) {
+  return people.map((person, index) => {
     return {
       id: index,
-      Nombre: ship.name,
-      Modelo: ship.model,
-      Capacidad: ship.passengers,
+      nombre: person.name,
+      edad: person.birth_year,
+      genero: person.gender,
+      url: person.url,
     };
   });
 }
-export default Ships;
+export default People;

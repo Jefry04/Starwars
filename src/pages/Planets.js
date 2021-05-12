@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DataTable from './DataTable';
+import DataTable from '../components/DataTable';
 import { Button, makeStyles } from '@material-ui/core';
-import Search from './Search';
-
-const fetchPeople = async (page) => {
-  try {
-    const response = await fetch(`https://swapi.dev/api/people/?page=${page}`);
-    const res = await response.json();
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
+import Search from '../components/Search';
+import fetchPlanets from './../utils/getData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,22 +12,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const People = () => {
+const Planets = () => {
   const [page, setPage] = useState(1);
-  const [people, setPeople] = useState([]);
+  const [planets, setPlanets] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(people);
+  let rows = createArray(planets);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchPeople(page).then((response) => {
+    fetchPlanets('planets', page).then((response) => {
       const characters = response.results;
-      setPeople(characters);
+      setPlanets(characters);
       setState(response);
     });
   }, [page]);
@@ -66,21 +57,21 @@ const People = () => {
           </Button>
         )}
         <div align="left">
-          <Search />
+          <Search path={'planets'} />
         </div>
       </div>
     </>
   );
 };
 
-function createArray(people) {
-  return people.map((person, index) => {
+function createArray(planets) {
+  return planets.map((planet, index) => {
     return {
       id: index,
-      nombre: person.name,
-      edad: person.birth_year,
-      genero: person.gender,
+      nombre: planet.name,
+      clima: planet.climate,
+      poblacion: planet.population,
     };
   });
 }
-export default People;
+export default Planets;

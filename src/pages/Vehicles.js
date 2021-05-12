@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DataTable from './DataTable';
+import DataTable from '../components/DataTable';
 import { Button, makeStyles } from '@material-ui/core';
-import Search from './Search';
-
-const fetchPlanets = async (page) => {
-  try {
-    const response = await fetch(`https://swapi.dev/api/planets/?page=${page}`);
-    const res = await response.json();
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
+import Search from '../components/Search';
+import fetchVehicles from '../utils/getData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,22 +12,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Planets = () => {
+const Vehicles = () => {
   const [page, setPage] = useState(1);
-  const [planets, setPlanets] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(planets);
+  let rows = createArray(vehicles);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchPlanets(page).then((response) => {
-      const characters = response.results;
-      setPlanets(characters);
+    fetchVehicles('vehicles', page).then((response) => {
+      const vehicle = response.results;
+      setVehicles(vehicle);
       setState(response);
     });
   }, [page]);
@@ -66,21 +57,21 @@ const Planets = () => {
           </Button>
         )}
         <div align="left">
-          <Search />
+          <Search path={'vehicles'} />
         </div>
       </div>
     </>
   );
 };
 
-function createArray(planets) {
-  return planets.map((planet, index) => {
+function createArray(vehicles) {
+  return vehicles.map((vehicle, index) => {
     return {
       id: index,
-      nombre: planet.name,
-      clima: planet.climate,
-      poblacion: planet.population,
+      nombre: vehicle.name,
+      Modelo: vehicle.model,
+      Capacidad: vehicle.passengers,
     };
   });
 }
-export default Planets;
+export default Vehicles;

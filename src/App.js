@@ -1,10 +1,12 @@
 import React from 'react';
-import People from './components/People';
-import Planets from './components/Planets';
+import People from './pages/People';
+import Planets from './pages/Planets';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Ships from './components/Ships';
-import Vehicles from './components/Vehicles';
+import Ships from './pages/Ships';
+import Vehicles from './pages/Vehicles';
+import SearchResult from './components/SearchResult';
+
 function App() {
   return (
     <>
@@ -16,6 +18,7 @@ function App() {
             <Route path="/Planets" component={Planets} />
             <Route path="/ships" component={Ships} />
             <Route path="/vehicles" component={Vehicles} />
+            <Route exact path="/result" component={SearchResult} />
           </Switch>
         </div>
       </Router>

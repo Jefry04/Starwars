@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DataTable from './DataTable';
+import DataTable from '../components/DataTable';
 import { Button, makeStyles } from '@material-ui/core';
-import Search from './Search';
-
-const fetchVehicles = async (page) => {
-  try {
-    const response = await fetch(
-      `https://swapi.dev/api/vehicles/?page=${page}`
-    );
-    const res = await response.json();
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
+import Search from '../components/Search';
+import fetchShips from '../utils/getData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,22 +12,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Vehicles = () => {
+const Ships = () => {
   const [page, setPage] = useState(1);
-  const [vehicles, setVehicles] = useState([]);
+  const [ships, setShips] = useState([]);
   const [state, setState] = useState({
     count: undefined,
     next: true,
     previous: false,
     results: [],
   });
-  let rows = createArray(vehicles);
+  let rows = createArray(ships);
   const classes = useStyles();
 
   useEffect(() => {
-    fetchVehicles(page).then((response) => {
-      const vehicle = response.results;
-      setVehicles(vehicle);
+    fetchShips('starships', page).then((response) => {
+      const ship = response.results;
+      setShips(ship);
       setState(response);
     });
   }, [page]);
@@ -68,21 +57,21 @@ const Vehicles = () => {
           </Button>
         )}
         <div align="left">
-          <Search />
+          <Search path={'starships'} />
         </div>
       </div>
     </>
   );
 };
 
-function createArray(vehicles) {
-  return vehicles.map((vehicle, index) => {
+function createArray(ships) {
+  return ships.map((ship, index) => {
     return {
       id: index,
-      nombre: vehicle.name,
-      Modelo: vehicle.model,
-      Capacidad: vehicle.passengers,
+      nombre: ship.name,
+      Modelo: ship.model,
+      Capacidad: ship.passengers,
     };
   });
 }
-export default Vehicles;
+export default Ships;
